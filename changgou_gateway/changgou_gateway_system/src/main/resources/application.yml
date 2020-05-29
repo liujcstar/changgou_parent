@@ -1,0 +1,38 @@
+spring:
+  application:
+    name: sysgateway
+  cloud:
+    gateway:
+      gateway:
+        globalcors:
+          cors-configurations:
+            '[/**]': # 匹配所有请求
+              allowedOrigins: "*"  #跨域处理 允许所有的域
+              allowedMethods: # 支持的方法
+                - GET
+                - POST
+                - PUT
+                - DELETE
+      routes:
+       - id: goods
+         uri: lb://goods
+         predicates:
+          - Path=/goods/**
+          #在一个服务路径中，存在多个controller，但是我们又需要使用服务名区分
+          #就可能会出现/goods/brands/breach区分模块之间的路径，但是，请求就会多了一个请求路径
+         filters:
+         #我们设置跳过一个请求前缀
+          - StripPrefix= 1
+       - id: system
+         uri: lb://system
+         predicates:
+           - Path=/system/**
+         filters:
+           - StripPrefix= 1
+eureka:
+  client:
+    service-url:
+      defaultZone: http://127.0.0.1:6868/eureka
+
+server:
+  port: 9101
