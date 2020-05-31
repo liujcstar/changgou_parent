@@ -1,11 +1,14 @@
 package com.changgou.system.service.impl;
 
+import com.alibaba.fastjson.JSON;
 import com.changgou.system.dao.AdminMapper;
 import com.changgou.system.service.AdminService;
 import com.changgou.system.pojo.Admin;
+import com.changgou.util.JwtUtil;
 import com.github.pagehelper.Page;
 import com.github.pagehelper.PageHelper;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.crypto.bcrypt.BCrypt;
 import org.springframework.stereotype.Service;
 import tk.mybatis.mapper.entity.Example;
 
@@ -44,6 +47,14 @@ public class AdminServiceImpl implements AdminService {
      */
     @Override
     public void add(Admin admin){
+
+        //使用BCrypt对用户密码进行加盐加密保存
+        String gensalt = BCrypt.gensalt();
+        String hashpw = BCrypt.hashpw(admin.getPassword(), gensalt);
+        admin.setPassword(hashpw);
+
+
+
         adminMapper.insert(admin);
     }
 
@@ -102,6 +113,31 @@ public class AdminServiceImpl implements AdminService {
         PageHelper.startPage(page,size);
         Example example = createExample(searchMap);
         return (Page<Admin>)adminMapper.selectByExample(example);
+    }
+
+    /**
+     * 用户登录
+     * @param admin
+     * @return
+     */
+    @Override
+    public Boolean login(Admin admin) {
+
+        Admin admin2 = new Admin();
+        admin2.setLoginName(admin.getLoginName());
+
+        //根据所给字段进行查询
+        Admin sqlAdmin = adminMapper.selectOne(admin2);
+
+        if (sqlAdmin==null){
+            return false;
+        }
+
+        boolean checkpw = BCrypt.checkpw(admin.getPassword(), sqlAdmin.getPassword());
+
+
+
+        return checkpw;
     }
 
     /**

@@ -4,9 +4,12 @@ import com.changgou.entity.Result;
 import com.changgou.entity.StatusCode;
 import com.changgou.system.service.AdminService;
 import com.changgou.system.pojo.Admin;
+import com.changgou.util.JwtUtil;
 import com.github.pagehelper.Page;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
+
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 @RestController
@@ -103,5 +106,29 @@ public class AdminController {
         return new Result(true,StatusCode.OK,"查询成功",pageResult);
     }
 
+
+    /**
+     * 用户登录
+     * @param admin
+     * @return
+     */
+    @PostMapping("/login")
+    public Result login(@RequestBody Admin admin){
+
+        Boolean login = adminService.login(admin);
+        if (login == true){
+
+            HashMap<String, String> map = new HashMap<String, String>();
+
+            //如果用户登录成功，就将用户信息存储到JWT令牌中
+            String jwt = JwtUtil.createJWT("1", admin.getLoginName(), 60000L);
+
+            map.put("jwt",jwt );
+
+            return new Result(true,StatusCode.OK,"用户登录成功",map);
+        }else {
+            return new Result(false,StatusCode.ERROR,"用户登录失败");
+        }
+    }
 
 }

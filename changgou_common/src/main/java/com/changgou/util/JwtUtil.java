@@ -1,4 +1,5 @@
-package com.changgou.system.util;
+package com.changgou.util;
+import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.JwtBuilder;
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.SignatureAlgorithm;
@@ -44,6 +45,7 @@ public class JwtUtil {
                 .setExpiration(expDate);// 设置过期时间
         return builder.compact();
     }
+
 
     /**
      * 生成加密后的秘钥 secretKey

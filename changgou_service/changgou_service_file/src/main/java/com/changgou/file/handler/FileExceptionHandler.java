@@ -11,7 +11,9 @@ public class FileExceptionHandler {
 
     @ExceptionHandler(Exception.class)
     @ResponseBody
-    public Result error(){
+    public Result error(Exception e){
+
+        e.printStackTrace();
 
         return new Result(false, StatusCode.OK,"系统繁忙，稍后再试");
 

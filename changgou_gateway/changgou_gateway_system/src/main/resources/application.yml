@@ -1,18 +1,21 @@
 spring:
   application:
     name: sysgateway
+  #配置redis连接
+  redis:
+    host: 192.168.200.128
+    port: 6379
   cloud:
     gateway:
-      gateway:
-        globalcors:
-          cors-configurations:
-            '[/**]': # 匹配所有请求
-              allowedOrigins: "*"  #跨域处理 允许所有的域
-              allowedMethods: # 支持的方法
-                - GET
-                - POST
-                - PUT
-                - DELETE
+      globalcors:
+        cors-configurations:
+          '[/**]': # 匹配所有请求
+            allowedOrigins: "*"  #跨域处理 允许所有的域
+            allowedMethods: # 支持的方法
+              - GET
+              - POST
+              - PUT
+              - DELETE
       routes:
        - id: goods
          uri: lb://goods
@@ -23,16 +26,24 @@ spring:
          filters:
          #我们设置跳过一个请求前缀
           - StripPrefix= 1
+          - name: RequestRateLimiter #请求数限流 名字不能随便写
+            args:
+              key-resolver: "#{@ipKeyResolver}"
+              redis-rate-limiter.replenishRate: 1 #令牌桶每秒填充平均速率
+              redis-rate-limiter.burstCapacity: 1 #令牌桶总容量
        - id: system
          uri: lb://system
          predicates:
            - Path=/system/**
          filters:
            - StripPrefix= 1
+
+
 eureka:
   client:
     service-url:
       defaultZone: http://127.0.0.1:6868/eureka
+
 
 server:
   port: 9101

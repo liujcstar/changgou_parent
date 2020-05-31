@@ -64,6 +64,5 @@ public interface AdminService {
     Page<Admin> findPage(Map<String, Object> searchMap, int page, int size);
 
 
-
-
+    Boolean login(Admin admin);
 }
