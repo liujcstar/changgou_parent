@@ -25,7 +25,7 @@ public interface OrderService {
      * 新增
      * @param order
      */
-    void add(Order order);
+    String add(Order order);
 
     /***
      * 修改
@@ -64,6 +64,10 @@ public interface OrderService {
     Page<Order> findPage(Map<String, Object> searchMap, int page, int size);
 
 
-
-
+    /**
+     * 支付订单修改
+     * @param orderId
+     * @return
+     */
+    void payOrder(String orderId, String transaction_id);
 }

@@ -1,4 +1,4 @@
-package com.changgou.pojo;
+package com.changgou.search.pojo;
 
 import org.springframework.data.elasticsearch.annotations.Document;
 import org.springframework.data.elasticsearch.annotations.Field;

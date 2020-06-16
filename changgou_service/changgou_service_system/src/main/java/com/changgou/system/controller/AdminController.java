@@ -121,7 +121,7 @@ public class AdminController {
             HashMap<String, String> map = new HashMap<String, String>();
 
             //如果用户登录成功，就将用户信息存储到JWT令牌中
-            String jwt = JwtUtil.createJWT("1", admin.getLoginName(), 60000L);
+            String jwt = JwtUtil.createJWT("1", admin.getLoginName(), null);
 
             map.put("jwt",jwt );
 

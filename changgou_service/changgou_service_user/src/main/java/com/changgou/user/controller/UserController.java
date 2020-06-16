@@ -34,10 +34,17 @@ public class UserController {
      * @return
      */
     @GetMapping("/{username}")
-    public Result findById(@PathVariable String username){
+    public Result findById(@PathVariable("username") String username){
         User user = userService.findById(username);
         return new Result(true,StatusCode.OK,"查询成功",user);
     }
+
+    @GetMapping("/load/{username}")
+    public Result<User> findUserById(@PathVariable("username") String username){
+        User user = userService.findById(username);
+        return new Result<>(true,StatusCode.OK,"查询成功",user);
+    }
+
 
 
     /***
@@ -59,10 +66,10 @@ public class UserController {
      * @return
      */
     @PutMapping(value="/{username}")
-    public Result update(@RequestBody User user,@PathVariable String username){
+    public Result<User> update(@RequestBody User user,@PathVariable String username){
         user.setUsername(username);
         userService.update(user);
-        return new Result(true,StatusCode.OK,"修改成功");
+        return new Result<User>(true,StatusCode.OK,"修改成功");
     }
 
 

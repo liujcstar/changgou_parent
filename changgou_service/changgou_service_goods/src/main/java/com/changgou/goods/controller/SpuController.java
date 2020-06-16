@@ -35,9 +35,9 @@ public class SpuController {
      * @return
      */
     @GetMapping("/{id}")
-    public Result findById(@PathVariable String id){
+    public Result<Spu> findById(@PathVariable String id){
         Spu spu = spuService.findById(id);
-        return new Result(true,StatusCode.OK,"查询成功",spu);
+        return new Result<Spu>(true,StatusCode.OK,"查询成功",spu);
     }
 
 
@@ -55,14 +55,12 @@ public class SpuController {
 
     /***
      * 修改数据
-     * @param spu
-     * @param id
+     * @param goods
      * @return
      */
-    @PutMapping(value="/{id}")
-    public Result update(@RequestBody Spu spu,@PathVariable String id){
-        spu.setId(id);
-        spuService.update(spu);
+    @PutMapping
+    public Result update(@RequestBody Goods goods){
+        spuService.update(goods);
         return new Result(true,StatusCode.OK,"修改成功");
     }
 
@@ -103,5 +101,97 @@ public class SpuController {
         PageResult pageResult=new PageResult(pageList.getTotal(),pageList.getResult());
         return new Result(true,StatusCode.OK,"查询成功",pageResult);
     }
+
+    /**
+     * 查询商品
+     * @param id
+     * @return
+     */
+    @GetMapping("/goods/{id}")
+    public Result findGoods(@PathVariable("id") String id){
+
+        Goods goods = spuService.findGoods(id);
+
+        return new Result(true,StatusCode.OK,"查询成功",goods);
+    }
+
+    /**
+     * 上架
+     * @param id
+     * @return
+     */
+    @PutMapping("/putaway/{id}")
+    public Result putaway(@PathVariable("id") String id){
+
+        spuService.putaway(id);
+        return new Result(true,StatusCode.OK,"上架成功");
+
+    }
+
+    /**
+     * 下架
+     * @param id
+     * @return
+     */
+    @PutMapping("/pullaway/{id}")
+    public Result pullaway(@PathVariable("id") String id){
+
+        spuService.pullaway(id);
+        return new Result(true,StatusCode.OK,"下架成功");
+
+    }
+
+    /**
+     * 审核
+     * @param id
+     * @return
+     */
+    @PutMapping("/audit/{id}")
+    public Result audit(@PathVariable("id") String id){
+
+        spuService.audit(id);
+        return new Result(true,StatusCode.OK,"审核成功");
+
+    }
+
+    /**
+     * 审核
+     * @param id
+     * @return
+     */
+    @PutMapping("/unAudit/{id}")
+    public Result unAudit(@PathVariable("id") String id){
+
+        spuService.unAudit(id);
+        return new Result(true,StatusCode.OK,"设置未通过审核成功");
+
+    }
+
+    /**
+     * 还原
+     * @param id
+     * @return
+     */
+    @PutMapping("/restore/{id}")
+    public Result restore(@PathVariable("id") String id){
+
+        spuService.restore(id);
+        return new Result(true,StatusCode.OK,"还原成功");
+
+    }
+
+    /**
+     * 物理删除
+     * @param id
+     * @return
+     */
+    @DeleteMapping("/relDelete/{id}")
+    public Result relDelete(@PathVariable("id") String id){
+
+        spuService.relDelete(id);
+        return new Result(true,StatusCode.OK,"物理删除成功");
+
+    }
+
 
 }

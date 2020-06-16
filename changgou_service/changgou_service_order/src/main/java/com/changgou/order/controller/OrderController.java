@@ -34,9 +34,9 @@ public class OrderController {
      * @return
      */
     @GetMapping("/{id}")
-    public Result findById(@PathVariable String id){
+    public Result<Order> findById(@PathVariable("id") String id){
         Order order = orderService.findById(id);
-        return new Result(true,StatusCode.OK,"查询成功",order);
+        return new Result<Order>(true,StatusCode.OK,"查询成功",order);
     }
 
 
@@ -47,8 +47,8 @@ public class OrderController {
      */
     @PostMapping
     public Result add(@RequestBody Order order){
-        orderService.add(order);
-        return new Result(true,StatusCode.OK,"添加成功");
+        String orderId = orderService.add(order);
+        return new Result(true,StatusCode.OK,"添加成功",orderId);
     }
 
 
@@ -102,6 +102,7 @@ public class OrderController {
         PageResult pageResult=new PageResult(pageList.getTotal(),pageList.getResult());
         return new Result(true,StatusCode.OK,"查询成功",pageResult);
     }
+
 
 
 }

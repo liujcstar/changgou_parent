@@ -63,7 +63,10 @@ public class AlbumServiceImpl implements AlbumService {
      */
     @Override
     public void delete(Long id){
+
         albumMapper.deleteByPrimaryKey(id);
+
+
     }
 
 

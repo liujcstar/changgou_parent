@@ -2,6 +2,7 @@ package com.changgou.goods.service;
 
 import com.changgou.goods.pojo.Goods;
 import com.changgou.goods.pojo.Spu;
+import com.changgou.order.pojo.OrderItem;
 import com.github.pagehelper.Page;
 
 import java.util.List;
@@ -30,9 +31,9 @@ public interface SpuService {
 
     /***
      * 修改
-     * @param spu
+     * @param goods
      */
-    void update(Spu spu);
+    void update(Goods goods);
 
     /***
      * 删除
@@ -63,6 +64,29 @@ public interface SpuService {
      * @return
      */
     Page<Spu> findPage(Map<String, Object> searchMap, int page, int size);
+
+
+
+    //根据spuId查询goods组合商品
+    Goods findGoods(String id);
+
+    //上架商品
+    void putaway(String id);
+
+    //下架商品
+    void pullaway(String id);
+
+    //审核商品信息
+    void audit(String id);
+
+    //商品审核不成功
+    void unAudit(String id);
+
+    //还原商品
+    void restore(String id);
+
+    //物理删除商品
+    void relDelete(String id);
 
 
 

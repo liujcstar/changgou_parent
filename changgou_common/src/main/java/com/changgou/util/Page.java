@@ -1,4 +1,4 @@
-package com.changgou.entity;
+package com.changgou.util;
 
 import java.io.Serializable;
 import java.util.List;
@@ -170,6 +170,7 @@ public class Page <T> implements Serializable{
 		initPage(total, currentpage, pagesize);
 	}
 
+	//下一页
 	public long getNext() {
 		return  currentpage<last? currentpage+1: last;
 	}

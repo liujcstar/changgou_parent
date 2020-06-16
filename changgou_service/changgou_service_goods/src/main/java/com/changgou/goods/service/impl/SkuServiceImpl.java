@@ -3,6 +3,7 @@ package com.changgou.goods.service.impl;
 import com.changgou.goods.dao.SkuMapper;
 import com.changgou.goods.service.SkuService;
 import com.changgou.goods.pojo.Sku;
+import com.changgou.order.pojo.OrderItem;
 import com.github.pagehelper.Page;
 import com.github.pagehelper.PageHelper;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -99,9 +100,22 @@ public class SkuServiceImpl implements SkuService {
      */
     @Override
     public Page<Sku> findPage(Map<String,Object> searchMap, int page, int size){
+
+
         PageHelper.startPage(page,size);
         Example example = createExample(searchMap);
         return (Page<Sku>)skuMapper.selectByExample(example);
+    }
+
+    /**
+     * 更新库存信息
+     * @param orderItem
+     * @return
+     */
+    @Override
+
+    public int sellSkuByOrderItem(OrderItem orderItem) {
+        return skuMapper.sellByOrderItem(orderItem);
     }
 
     /**

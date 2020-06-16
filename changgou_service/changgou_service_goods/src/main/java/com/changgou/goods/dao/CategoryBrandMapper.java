@@ -1,4 +1,7 @@
 package com.changgou.goods.dao;
 
-public class CategoryBrandMapper {
+import com.changgou.goods.pojo.CategoryBrand;
+import tk.mybatis.mapper.common.Mapper;
+
+public interface CategoryBrandMapper extends Mapper<CategoryBrand> {
 }
